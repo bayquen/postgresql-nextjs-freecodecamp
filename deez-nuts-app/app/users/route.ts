@@ -44,6 +44,11 @@ async function writeUsers(users: User[]) {
             email = EXCLUDED.email,
             age = EXCLUDED.age;
         `;
-        
+
+        for (const user of users) {
+            await client.query(insertQuery, [user.id, user.name, user.email, user.age]);
+        } 
+    } finally {
+        await client.end();
     }
 }
