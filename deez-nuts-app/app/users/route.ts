@@ -52,3 +52,14 @@ async function writeUsers(users: User[]) {
         await client.end();
     }
 }
+
+// Handle GET request: return list of users
+export async function GET() {
+    try {
+        const users = await readUsers();
+        return NextResponse.json(users);
+    } catch (err) {
+        console.error("Error reading users from DB:", err)
+        return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
+    }
+}
