@@ -63,3 +63,15 @@ export async function GET() {
         return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
     }
 }
+
+export async function POST(req: NextRequest) {
+    try {
+        const body = await req.json();
+        const users: User[] = Array.isArray(body) ? body : [body];
+
+        await writeUsers(users);
+    } catch (err) {
+        console.error("Error writing users to DB:", err);
+        return NextResponse.json({ error: "Failed to write users" }, { status: 500 });
+    }
+}
